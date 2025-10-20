@@ -53,9 +53,6 @@ void List<T>::inserer(size_t pos, const T& data) {
     p->prev = n;
     n->next = p;
     ++cardinal;
-
-    //p = p->next;
-    //p->data = data;
 }
 
 template<typename T>
