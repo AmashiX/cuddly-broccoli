@@ -7,6 +7,7 @@ add_executable(MySTL main.cpp
         Vecteur.h
 
         List.h
+        Digraph.h
 )
 
 include(FetchContent)
