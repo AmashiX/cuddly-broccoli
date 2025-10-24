@@ -33,20 +33,29 @@ private:
     };
 
     bool invariant() const;
-    std::vector<T> index;
+    std::vector<T> sommets;
     std::vector<std::list<Arc>> listes;
 };
 
 template<typename T>
-Digraph<T>::Digraph(): index(), listes() {
+Digraph<T>::Digraph(): sommets(), listes() {
     assert(invariant());
 }
 
 template<typename T>
 void Digraph<T>::ajoutSommet(const T &sommet) {
     assert(!sommetExists(sommet));
-    index.push_back(sommet);
+    sommets.push_back(sommet);
     listes.emplace_back();
+    assert(invariant());
+}
+
+template<typename T>
+void Digraph<T>::supprimerSommet(const T &sommet) {
+    assert(sommetExists(sommet));
+    auto numeroSommet = trouverNumeroSommet(sommet);
+    sommets.erase(sommets.begin() + numeroSommet);
+    listes.erase(listes.begin()+numeroSommet);
     assert(invariant());
 }
 
@@ -61,20 +70,31 @@ void Digraph<T>::ajouterArc(const T &depart, const T &arrivee, double poids) {
 }
 
 template<typename T>
+void Digraph<T>::supprimerArc(const T &depart, const T &arrivee) {
+    assert(arcExists(depart,arrivee));
+    auto ndep = trouverNumeroSommet(depart);
+    auto narr = trouverNumeroSommet(arrivee);
+    auto& l = listes.at(ndep);
+    auto it = std::find(l.begin(), l.end(), narr);
+    l.erase(it);
+    assert(invariant());
+}
+
+template<typename T>
 size_t Digraph<T>::taille() const {
-    return index.size();
+    return sommets.size();
 }
 
 template<typename T>
 size_t Digraph<T>::trouverNumeroSommet(const T &sommet) const {
-    auto it = std::find(index.begin(), index.end(), sommet);
-    return std::distance(index.begin(), it);
+    auto it = std::find(sommets.begin(), sommets.end(), sommet);
+    return std::distance(sommets.begin(), it);
 }
 
 template<typename T>
 bool Digraph<T>::sommetExists(const T &sommet) const {
-    auto it = std::find(index.begin(), index.end(), sommet);
-    if (it != index.end()) return true;
+    auto it = std::find(sommets.begin(), sommets.end(), sommet);
+    if (it != sommets.end()) return true;
     return false;
 }
 
@@ -91,7 +111,7 @@ bool Digraph<T>::arcExists(const T &depart, const T &arrivee) const {
 
 template<typename T>
 bool Digraph<T>::invariant() const {
-    if (index.size() != listes.size()) return false;
+    if (sommets.size() != listes.size()) return false;
     return true;
 }
 

@@ -61,8 +61,41 @@ TEST(List, inserer_Lire) {
 }
 
 TEST(Digraph, digraph_vide) {
-    Digraph<int> digraph;
-    EXPECT_EQ(0,digraph.taille());
+    Digraph<int> d;
+    d.ajoutSommet(22);
+    EXPECT_EQ(1,d.taille());
+    EXPECT_TRUE(d.sommetExists(22));
+    EXPECT_FALSE(d.sommetExists(11));
+}
+
+TEST(Digraph, ajouter_arc ) {
+    Digraph<int> d;
+    d.ajoutSommet(22);
+    d.ajoutSommet(11);
+    d.ajouterArc(22,11,2.9);
+    EXPECT_TRUE(d.arcExists(22,11));
+    EXPECT_FALSE(d.arcExists(11,22));
+
+}
+
+TEST(Digraph, ajouter_arc_supprimer ) {
+    Digraph<int> d;
+    d.ajoutSommet(22);
+    d.ajoutSommet(11);
+    d.ajouterArc(22,11,2.9);
+    d.supprimerArc(22,11);
+    EXPECT_FALSE(d.arcExists(22,11));
+
+}
+TEST(Digraph, supprimer_Sommet) {
+    Digraph<int> d;
+    d.ajoutSommet(22);
+    d.ajoutSommet(11);
+    d.supprimerSommet(22);
+    EXPECT_EQ(d.taille(),1);
+    EXPECT_TRUE(d.sommetExists(11));
+    EXPECT_FALSE(d.sommetExists(22));
+
 }
 
 TEST(Digraph, digraph_ajouter_un_lire_un) {
