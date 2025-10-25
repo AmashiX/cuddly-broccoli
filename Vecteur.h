@@ -76,6 +76,7 @@ void Vecteur<T>::inserer(size_t index, const T& nouveau) {
     assert(invariant());
 }
 
+
 template<typename T>
 T Vecteur<T>::Lire(size_t index) const {
 
