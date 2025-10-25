@@ -8,6 +8,7 @@
 #include <list>
 #include <vector>
 #include <cassert>
+#include <unordered_map>
 
 template <typename T>
 class Digraph {
@@ -22,6 +23,9 @@ class Digraph {
 
     bool sommetExists(const T& sommet) const;
     bool arcExists(const T& depart, const T& arrivee) const;
+
+    std::unordered_map<T,double>sommetsAdjacents(const T& depart) const;
+    const std::vector<T>&  enumererSommets() const;
 
 
 private:
@@ -106,6 +110,20 @@ bool Digraph<T>::arcExists(const T &depart, const T &arrivee) const {
     auto it = std::find(l.begin(), l.end(), narr);
     if (it != l.end()) return true;
     return false;
+}
+
+template<typename T>
+std::unordered_map<T, double> Digraph<T>::sommetsAdjacents(const T &depart) const {
+    assert(sommetExists(depart));
+    std::unordered_map<T, double> voisins;
+    auto ndep = trouverNumeroSommet(depart);
+    for (auto arc : listes.at(ndep)) voisins.insert({sommets.at(arc.destination), arc.poids});
+    return voisins;
+}
+
+template<typename T>
+const std::vector<T> & Digraph<T>::enumererSommets() const {
+    return sommets;
 }
 
 

@@ -8,6 +8,7 @@ add_executable(MySTL main.cpp
 
         List.h
         Digraph.h
+        AlgorithmesDigraphes.cpp
 )
 
 include(FetchContent)
